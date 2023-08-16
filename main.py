@@ -162,10 +162,12 @@ def executeBot(currentAccount, notifier: Notifier, args: argparse.Namespace):
         notifier.send(
             "\n".join(
                 [
+                    "-------------------------------------------------",
                     "Microsoft Rewards Farmer",
                     f"Account: {currentAccount.get('username', '')}",
                     f"Points earned today: {desktopBrowser.utils.formatNumber(accountPointsCounter - startingPoints)}",
                     f"Total points: {desktopBrowser.utils.formatNumber(accountPointsCounter)}",
+                    "-------------------------------------------------",
                 ]
             )
         )

@@ -75,6 +75,7 @@ class Searches:
         return pointsCounter
 
     def bingSearch(self, word: str):
+        retries = 0
         while True:
             try:
                 self.webdriver.get("https://bing.com")
@@ -86,5 +87,9 @@ class Searches:
                 return self.browser.utils.getBingAccountPoints()
             except TimeoutException:
                 logging.error("[BING] " + "Timeout, retrying in 5 seconds...")
+                retries += 1
+                if retries > 5:
+                    logging.error("[BING] " + "Too many retries, skipping...")
+                    return -1
                 time.sleep(5)
                 continue

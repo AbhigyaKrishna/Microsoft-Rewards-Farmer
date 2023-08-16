@@ -57,7 +57,9 @@ class Browser:
         self,
     ) -> WebDriver:
         options = webdriver.ChromeOptions()
-        options.headless = self.headless
+        if self.headless:
+            options.add_argument("--headless=new")
+
         options.add_argument(f"--lang={self.localeLang}")
         options.add_argument("--log-level=3")
 
