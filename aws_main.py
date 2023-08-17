@@ -8,7 +8,9 @@ from src.notifier import Notifier
 
 
 def aws_main():
-    main.setupLogging()
+    args = main.argumentParser()
+    notifier = Notifier(args)
+    main.setupLogging(notifier, args.verbosenotifs)
 
     instance_id = ec2_metadata.instance_id
     try:
@@ -20,8 +22,6 @@ def aws_main():
 
     curr_time = time.time()
 
-    args = main.argumentParser()
-    notifier = Notifier(args)
     loaded_accounts = main.setupAccounts()
 
     notifier.send(

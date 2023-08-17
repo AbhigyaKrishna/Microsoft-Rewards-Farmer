@@ -15,9 +15,9 @@ POINTS_COUNTER = 0
 
 
 def main():
-    setupLogging()
     args = argumentParser()
     notifier = Notifier(args)
+    setupLogging(notifier, args.verbosenotifs)
     loadedAccounts = setupAccounts()
     for currentAccount in loadedAccounts:
         try:
@@ -26,10 +26,10 @@ def main():
             logging.exception(f"{e.__class__.__name__}: {e}")
 
 
-def setupLogging():
+def setupLogging(notifier: Notifier, verbose: bool):
     format = "%(asctime)s [%(levelname)s] %(message)s"
     terminalHandler = logging.StreamHandler(sys.stdout)
-    terminalHandler.setFormatter(ColoredFormatter(format))
+    terminalHandler.setFormatter(ColoredFormatter(format, notifier, verbose))
 
     (Path(__file__).resolve().parent / "logs").mkdir(parents=True, exist_ok=True)
 
@@ -82,6 +82,9 @@ def argumentParser() -> argparse.Namespace:
         type=str,
         default=None,
         help="Optional: Discord Webhook URL (ex: https://discord.com/api/webhooks/123456789/ABCdefGhIjKlmNoPQRsTUVwxyZ)",
+    )
+    parser.add_argument(
+        "-vn", "--verbosenotifs", action="store_true", help="Optional: Send all the logs to discord/telegram"
     )
     return parser.parse_args()
 
