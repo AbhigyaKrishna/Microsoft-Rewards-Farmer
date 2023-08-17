@@ -28,11 +28,11 @@ def aws_main():
     notifier.send(
         "\n".join(
             [
-                "-------------------------------------------------",
+                "------------------------------------------------",
                 "Microsoft Rewards Farmer",
                 f"Instance: {instance_id}",
                 f"Loaded {len(loaded_accounts)} accounts",
-                "-------------------------------------------------",
+                "------------------------------------------------",
             ]
         )
     )
@@ -52,13 +52,13 @@ def aws_main():
     notifier.send(
         "\n".join(
             [
-                "-------------------------------------------------",
+                "------------------------------------------------",
                 "Microsoft Rewards Farmer",
                 f"Instance: {instance_id}",
                 f"Finished {len(loaded_accounts)} accounts",
                 f"Runtime: {runtime_str} seconds",
                 "Shutting down instance",
-                "-------------------------------------------------",
+                "------------------------------------------------",
             ]
         )
     )
