@@ -1,7 +1,7 @@
 import logging
 import sys
 
-notifierFormatter = logging.Formatter("[%(levelname)s] %(message)s")
+_notifierFormatter = logging.Formatter("[%(levelname)s] %(message)s")
 
 
 class NotifyingStreamHandler(logging.StreamHandler):
@@ -14,7 +14,7 @@ class NotifyingStreamHandler(logging.StreamHandler):
     def emit(self, record):
         logging.StreamHandler.emit(self, record)
         if self.verbose_notifs:
-            self.notifier.send(notifierFormatter.format(record))
+            self.notifier.send(_notifierFormatter.format(record))
 
 
 class ColoredFormatter(logging.Formatter):
