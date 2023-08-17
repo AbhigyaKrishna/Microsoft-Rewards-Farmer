@@ -45,7 +45,7 @@ class PunchCards:
                             f'//*[@id="AnswerPane{question}"]/div[1]/div[2]/div[4]/a/div/span/input',
                         ).click()
                         time.sleep(3)
-                    time.sleep(5)
+                    time.sleep(3)
                     self.browser.utils.closeCurrentTab()
 
     def completePunchCards(self):
