@@ -8,17 +8,18 @@ from src.notifier import Notifier
 
 
 def aws_main():
-    args = main.argumentParser()
-    notifier = Notifier(args)
-    main.setupLogging(notifier, args.verbosenotifs)
-
-    instance_id = ec2_metadata.instance_id
     try:
         tags = ec2_metadata.tags
         if tags.__getitem__('strategy') == 'dev':
             return
     except Exception:
         logging.info('No tags found, continuing')
+
+    args = main.argumentParser()
+    notifier = Notifier(args)
+    main.setupLogging(notifier, args.verbosenotifs)
+
+    instance_id = ec2_metadata.instance_id
 
     curr_time = time.time()
 

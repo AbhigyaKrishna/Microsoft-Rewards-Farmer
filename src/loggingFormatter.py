@@ -1,4 +1,20 @@
 import logging
+import sys
+
+notifierFormatter = logging.Formatter("[%(levelname)s] %(message)s")
+
+
+class NotifyingStreamHandler(logging.StreamHandler):
+
+    def __init__(self, notifier, verbose_notifs):
+        logging.StreamHandler.__init__(self, sys.stdout)
+        self.notifier = notifier
+        self.verbose_notifs = verbose_notifs
+
+    def emit(self, record):
+        logging.StreamHandler.emit(self, record)
+        if self.verbose_notifs:
+            self.notifier.send(notifierFormatter.format(record))
 
 
 class ColoredFormatter(logging.Formatter):
@@ -9,11 +25,9 @@ class ColoredFormatter(logging.Formatter):
     boldRed = "\x1b[31;1m"
     reset = "\x1b[0m"
 
-    def __init__(self, fmt, notifier, verbose_notifs):
+    def __init__(self, fmt):
         super().__init__()
         self.fmt = fmt
-        self.notifier = notifier
-        self.verbose_notifs = verbose_notifs
         self.FORMATS = {
             logging.DEBUG: self.grey + self.fmt + self.reset,
             logging.INFO: self.blue + self.fmt + self.reset,
@@ -25,6 +39,4 @@ class ColoredFormatter(logging.Formatter):
     def format(self, record):
         logFmt = self.FORMATS.get(record.levelno)
         formatter = logging.Formatter(logFmt)
-        if self.verbose_notifs:
-            self.notifier.send(f"[{logging.getLevelName(record.levelno)}] {record.msg}")
         return formatter.format(record)

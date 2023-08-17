@@ -3,12 +3,11 @@ import json
 import logging
 import logging.handlers as handlers
 import random
-import sys
 from pathlib import Path
 
 from src import Browser, DailySet, Login, MorePromotions, PunchCards, Searches
 from src.constants import VERSION
-from src.loggingColoredFormatter import ColoredFormatter
+from src.loggingFormatter import ColoredFormatter, NotifyingStreamHandler
 from src.notifier import Notifier
 
 POINTS_COUNTER = 0
@@ -28,8 +27,8 @@ def main():
 
 def setupLogging(notifier: Notifier, verbose: bool):
     format = "%(asctime)s [%(levelname)s] %(message)s"
-    terminalHandler = logging.StreamHandler(sys.stdout)
-    terminalHandler.setFormatter(ColoredFormatter(format, notifier, verbose))
+    streamHandler = NotifyingStreamHandler(notifier, verbose)
+    streamHandler.setFormatter(ColoredFormatter(format))
 
     (Path(__file__).resolve().parent / "logs").mkdir(parents=True, exist_ok=True)
 
@@ -44,7 +43,7 @@ def setupLogging(notifier: Notifier, verbose: bool):
                 backupCount=2,
                 encoding="utf-8",
             ),
-            terminalHandler,
+            streamHandler,
         ],
     )
 

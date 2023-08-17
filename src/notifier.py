@@ -18,7 +18,7 @@ class Notifier:
         for type in self.args:
             if len(message) > MAX_LENGTHS[type]:
                 for i in range(0, len(message), MAX_LENGTHS[type]):
-                    self.send(message[i : i + MAX_LENGTHS[type]])
+                    self.send(message[i: i + MAX_LENGTHS[type]])
                 return
             else:
                 getattr(self, type)(message)
